@@ -271,7 +271,7 @@ Consortium, who encouraged me to take on this mapping project before the release
   <a style={{color:'white'}} href="https://twitter.com/galaxy_map/status/1103986630539517958?s=20">Bok Machine</a> 
   workstation used to compute the maps, including the major funders:
   Bob Benjamin, Robert Brandon, Colby Gutierrez-Kraybill, Richard Hendricks, and Greg Whitten.</p>
-<p>&nbsp;-- Kevin Jardine, cartographer</p>
+<p>-- Kevin Jardine, cartographer</p>
           </DialogContentText>
         </DialogContent>
     </Dialog>
