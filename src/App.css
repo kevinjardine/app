@@ -30,3 +30,22 @@
     transform: rotate(360deg);
   }
 }
+
+#reticle-container {
+	position: relative;
+	width: 50px;
+	top: 50%;
+  left: 50%;
+	pointer-events: none;
+	z-index: 30;
+}
+
+#reticle {
+	position: absolute;
+  top: -35px;
+	left: -19px;
+	width: 40px;
+	height: 40px;
+	background: url("reticle.png") no-repeat center center;
+	pointer-events: none;
+}
