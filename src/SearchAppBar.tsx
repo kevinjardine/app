@@ -142,6 +142,23 @@ class SearchAppBar extends React.Component<any,any> {
   public updateSearch = (s:any) => {
     console.log('in updateSearch',s);
     //this.setState({ search: s});
+    const e_xg:any = document.getElementById("gaia-xg");
+
+        if (e_xg) {
+            e_xg.value = "";
+		}
+
+		const e_yg:any = document.getElementById("gaia-yg");
+
+        if (e_yg) {
+            e_yg.value = "";
+		}
+
+		const e_zoom:any = document.getElementById("gaia-zoom");
+
+        if (e_zoom) {
+            e_zoom.value = "";
+		}
     this.props.setSearch(s);
     this.props.setSearchDone(false);
   }

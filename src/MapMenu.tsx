@@ -33,7 +33,7 @@ class MapMenu extends React.Component<any,any> {
     zoom_bookmark: this.props.zoom_bookmarkBit === 'Z'?true:false,
     guide: this.props.guideBit === 'G'?true:false,
     open: false,
-    overlay: 'none',
+    overlay: 'C',
     display: Displayed.NoDisplay
   };
 
@@ -143,9 +143,10 @@ class MapMenu extends React.Component<any,any> {
             <FormControl component={"fieldset" as "div"}>
             <FormHelperText>Overlays</FormHelperText>
             <RadioGroup aria-label="overlay" name="overlay1" defaultValue={this.state.overlay} onChange={this.handleOverlayChange}>
-                <FormControlLabel value="none" control={<Radio />} label="None" />
-                <FormControlLabel value="masers" control={<Radio />} label="Masers" />
-                <FormControlLabel value="exoplanetstars" control={<Radio />} label="Exoplanet Stars (d > 100 pc)" />
+                <FormControlLabel value="N" control={<Radio />} label="None" />
+                <FormControlLabel value="C" control={<Radio />} label="Clusters and dust clouds" />
+                <FormControlLabel value="M" control={<Radio />} label="Masers" />
+                <FormControlLabel value="E" control={<Radio />} label="Exoplanet stars (d > 100 pc)" />
             </RadioGroup>
             </FormControl>
             <FormHelperText>Click on "Set" to redisplay map</FormHelperText>
@@ -191,9 +192,7 @@ class MapMenu extends React.Component<any,any> {
             </IconButton>
         </DialogTitle>
         <DialogContent>
-          <DialogContentText>
-            Legend would go here.
-          </DialogContentText>
+            <div id="legend"></div>
         </DialogContent>
     </Dialog>
     <Dialog
@@ -217,7 +216,7 @@ Gaia DR2 data for about 600 thousand stars as described in:</p>
 <p>Poggio, E., R. Drimmel, M. G. Lattanzi, R. L. Smart, A. Spagna, R. Andrae, 
 C. A. L. Bailer-Jones et al. 
 "The Galactic warp revealed by Gaia DR2 kinematics" <i>Monthly Notices of the 
-Royal Astronomical Society: Letters 481, no. 1</i> (2018): L21-L25.</p>
+Royal Astronomical Society: Letters</i> 481, no. 1 (2018): L21-L25.</p>
 <p>(Thank you to Eloisa Poggio for providing the latest version of this data set on 30 August 2019.)</p>
 <p>This was merged with StarHorse data for an additional 200 thousand stars with
 (BPRP0 &lt; -0.1) and (SH_GAIAFLAG == '000') and (SH_OUTFLAG == '00000')
@@ -230,7 +229,7 @@ and Bailer-Jones distances derived from Gaia DR2.</p>
 <p>OB association positions computed from the median distance to the member stars given in
 the data set first described in:</p>
 <p>Humphreys, R. M. "Studies of luminous stars in nearby galaxies. I. Supergiants and O stars in the Milky Way"
-<i>Astrophysical Journal, Suppl. Ser., Vol. 38, p. 309 - 350</i></p>
+<i>Astrophysical Journal, Suppl. Ser.</i>, Vol. 38, p. 309 - 350</p>
 <h3>HII regions</h3>
 <p>HII region positions computed from the median distance to known ionizing stars or clusters.</p>
 <h3>Star clusters</h3>
@@ -239,8 +238,7 @@ the data set first described in:</p>
 <p>Cantat-Gaudin, T., et al. "Gaia DR2 unravels incompleteness of nearby cluster population: new open clusters 
   in the direction of Perseus." <i>Astronomy &amp; Astrophysics</i> 624 (2019): A126.</p>
 <h3>Dust</h3>
-<p>Lallement, R., et al. "Gaia-2MASS 3D maps of Galactic interstellar dust within 3 kpc." <i>Astronomy &amp; Astrophysics</i> 
-  625 (2019): A135.</p>
+<p>Lallement, R., et al. "Gaia-2MASS 3D maps of Galactic interstellar dust within 3 kpc." <i>Astronomy &amp; Astrophysics</i> 625 (2019): A135.</p>
           </DialogContentText>
         </DialogContent>
     </Dialog>

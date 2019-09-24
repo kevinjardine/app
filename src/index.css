@@ -123,12 +123,11 @@ body {
 	top: -2px;
 }
 
-#opensedragon1 {
-  width: 800px; 
-  height: 500px;
-}
-
 #openseadragon1 :focus { outline: none; }
+
+#openseadragon1 {
+	margin: 0 auto;
+}
 
 .clickable {cursor: pointer;}
 
@@ -138,4 +137,11 @@ body {
 	overflow: hidden;
 	padding-top: 0.1em;
 	font-size: 0.8em;
+}
+
+#legend {
+	width: 275px;
+	height: 460px;
+	background: url("./legend.png") no-repeat center center;
+	background-size: contain;
 }

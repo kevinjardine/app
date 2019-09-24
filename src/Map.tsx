@@ -17,8 +17,8 @@ import { image } from 'd3';
 // const dataUrlPrefix = 'http://localhost:3000';
 // const dataUrlPrefix = 'http://gruze.org/galaxymap/poster2/poster2a';
 let dataUrlPrefix = 'http://gruze.org/galaxymap/app_beta/main_no_guides_png';
-//const posterUrl = 'http://localhost:3000';
-const posterUrl = 'http://galaxymap.org/app_beta3';
+const posterUrl = 'http://localhost:3000';
+// const posterUrl = 'http://galaxymap.org/app_beta3';
 const scaleWidth = 1024;
 
 // declare var d3: any;
@@ -57,7 +57,9 @@ class Map extends React.Component<any,any> {
 			blendTime: 1,
 			controlsFadeDelay: 3000,
 			id: "openseadragon1",
-			maxZoomPixelRatio: 1.2,
+			maxZoomPixelRatio: 1.5,
+			visibilityRatio: 0.4,
+			minZoomImageRatio: 0.7,
 			prefixUrl: "images/",
 			showFullPageControl: true,			
 			showRotationControl: false
@@ -79,18 +81,22 @@ class Map extends React.Component<any,any> {
 
     public render() {
 		if (this.props.guideBit == 'N') {
-			if (this.props.overlay == 'masers') {
+			if (this.props.overlay == 'M') {
 				dataUrlPrefix = 'http://gruze.org/galaxymap/app_beta/tiles_MN';
-			} else if (this.props.overlay == 'exoplanetstars') {
+			} else if (this.props.overlay == 'E') {
 				dataUrlPrefix = 'http://gruze.org/galaxymap/app_beta/tiles_EN';
+			} else if (this.props.overlay == 'C') {
+				dataUrlPrefix = 'http://gruze.org/galaxymap/app_beta/tiles_CN';
 			} else {
 				dataUrlPrefix = 'http://gruze.org/galaxymap/app_beta/tiles_NN';
 			}
 		} else {
-			if (this.props.overlay == 'masers') {
+			if (this.props.overlay == 'M') {
 				dataUrlPrefix = 'http://gruze.org/galaxymap/app_beta/tiles_MG';
-			} else if (this.props.overlay == 'exoplanetstars') {
+			} else if (this.props.overlay == 'E') {
 				dataUrlPrefix = 'http://gruze.org/galaxymap/app_beta/tiles_EG';
+			} else if (this.props.overlay == 'C') {
+				dataUrlPrefix = 'http://gruze.org/galaxymap/app_beta/tiles_CG';
 			} else {
 				dataUrlPrefix = 'http://gruze.org/galaxymap/app_beta/tiles_NG';
 			}
@@ -128,10 +134,41 @@ class Map extends React.Component<any,any> {
 				// var x, y, zoom, vp, p, d;
 				let props = this.props;
 				console.log('viewer open event triggered',props);
-				viewer.viewport.panTo(new OpenSeadragon.Point(0.50045*scaleWidth,0.72*scaleWidth),true);
+				//viewer.viewport.panTo(new OpenSeadragon.Point(0.50045*scaleWidth,0.72*scaleWidth),true);
 				// viewer.viewport.panTo(new OpenSeadragon.Point(0.50045*scaleWidth,0.4*scaleWidth),true);
+
+				const e_xg:any = document.getElementById("gaia-xg");
+				let xg = "";
+
+				if (e_xg) {
+					xg = e_xg.value;
+				}
+
+				if (xg == "") {
+					viewer.viewport.panTo(new OpenSeadragon.Point(0.50045*scaleWidth,0.4*scaleWidth),true);
+					//viewer.viewport.zoomTo(0.000001,null,true)
+					//viewer.viewport.zoomTo(0.0001, null, true);
+    				//viewer.viewport.applyConstraints();
+				}
+
+				if (xg != "") {
+
+					const e_yg:any = document.getElementById("gaia-yg");
+
+					let yg = e_yg.value;
+
+					const e_zoom:any = document.getElementById("gaia-zoom");
+
+					let zoom = e_zoom.value;
+
+					console.log('found non-empty values', xg,yg,zoom);
+
+					const p = new OpenSeadragon.Point(parseFloat(xg),parseFloat(yg));
+					console.log('point',p);
+					viewer.viewport.panTo(p,true);
+					viewer.viewport.zoomTo(zoom,null,true)
 			
-				if (props.search && !props.searchDone) {
+				} else if (props.search && !props.searchDone) {
 					console.log('search',props.search);
 					const searchName = this.props.search;
 					const searchNameLC = searchName.toLowerCase();
@@ -564,8 +601,29 @@ class Map extends React.Component<any,any> {
 		const zoom = viewer.viewport.getZoom();
 		// console.log(xg,yg,zoom);
 		
-        const bookmarkUrl = posterUrl+'?xg='+xg.toFixed(12)+'&yg='+yg.toFixed(12)+'&zoom='+zoom+'&tileset='+this.props.guideBit+this.props.zoom_bookmarkBit+'&search='+this.props.search;
-        
+		let bookmarkUrl = posterUrl+'?xg='+xg.toFixed(12)+'&yg='+yg.toFixed(12)+'&zoom='+zoom+'&tileset='+this.props.guideBit+this.props.zoom_bookmarkBit+this.props.overlay;
+		if (this.props.search) {
+			bookmarkUrl += '&search='+this.props.search;
+		}
+		
+		const e_xg:any = document.getElementById("gaia-xg");
+
+        if (e_xg) {
+            e_xg.value = xg;
+		}
+
+		const e_yg:any = document.getElementById("gaia-yg");
+
+        if (e_yg) {
+            e_yg.value = yg;
+		}
+
+		const e_zoom:any = document.getElementById("gaia-zoom");
+
+        if (e_zoom) {
+            e_zoom.value = zoom;
+		}
+
         const e:any = document.getElementById("gaia-search-bookmark-link");
 
         if (e) {

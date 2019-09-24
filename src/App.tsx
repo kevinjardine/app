@@ -14,8 +14,8 @@ class App extends React.Component<any,any> {
     super(props);
     this.state = {
       zoom_bookmarkBit: 'N',
-      guideBit: 'N',
-      overlay: 'none',
+      guideBit: 'G',
+      overlay: 'C',
       search: false,
       searchDone: true,
       windowHeight: 0,
@@ -78,7 +78,7 @@ class App extends React.Component<any,any> {
     });
     return (
       <MuiThemeProvider theme={myTheme}>
-        <div className="App">       
+        <div className="App">      
           <AppContent {... this.state} setSearch = {this.setSearch} setSearchDone={this.setSearchDone} setOptions = {this.setOptions} setBookmark = {this.setBookmark} />
         </div>
       </MuiThemeProvider>
@@ -112,14 +112,26 @@ class App extends React.Component<any,any> {
       
       if (tileSet.indexOf('G') !== -1) {
         this.setState({guideBit:'G'});
+      } else {
+        this.setState({guideBit:'N'});
       }
       if (tileSet.indexOf('Z') !== -1) {
         this.setState({zoom_bookmarkBit:'Z'});
+      }
+      if (tileSet.indexOf('E') !== -1) {
+        this.setState({overlay:'E'});
+      } else if (tileSet.indexOf('M') !== -1) {
+        this.setState({overlay:'M'});
+      } else if (tileSet.indexOf('C') !== -1) {
+        this.setState({overlay:'C'});
+      } else {
+        this.setState({overlay:'N'});
       }
       
     } else {
       this.setState({guideBit:'G'});
       this.setState({zoom_bookmarkBit:'Z'});
+      this.setState({overlay:'C'});
     }
 
     if ('search' in urlParams) {
