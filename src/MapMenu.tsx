@@ -265,9 +265,7 @@ institutions participating in the Gaia Multilateral Agreement.</p>
 <p>I'd like to thank Eloisa Poggio and Ron Drimmel, who supplied the main hot star data for the map;
   Stefan Payne-Wardenaar, a Blender expert who advised on density rendering; and Anthony Brown, the chair of the Gaia Data Processing and Analysis
 Consortium, who encouraged me to take on this mapping project before the release of Gaia DR2. </p>
-<p>I'd also like to thank the Kickstarter supporters who funded the powerful 
-  <a style={{color:'white'}} href="https://twitter.com/galaxy_map/status/1103986630539517958?s=20">Bok Machine</a> 
-  workstation used to compute the maps, including the major funders:
+<p>I'd also like to thank the Kickstarter supporters who funded the powerful  <a style={{color:'white'}} href="https://twitter.com/galaxy_map/status/1103986630539517958?s=20">Bok Machine</a> workstation used to compute the maps, including the major funders:
   Bob Benjamin, Robert Brandon, Colby Gutierrez-Kraybill, Richard Hendricks, and Greg Whitten.</p>
 <p>-- Kevin Jardine, cartographer</p>
           </DialogContentText>

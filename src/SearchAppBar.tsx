@@ -104,7 +104,8 @@ class SearchInput extends React.Component<any,any> {
   }
 
   public handleFocus = () => {
-    this.props.setSearchDone(true);
+    this.setState({ search: ''});
+    //this.props.setSearchDone(true);
   }
 
   public render() {
@@ -142,7 +143,7 @@ class SearchAppBar extends React.Component<any,any> {
   public updateSearch = (s:any) => {
     console.log('in updateSearch',s);
     //this.setState({ search: s});
-    const e_xg:any = document.getElementById("gaia-xg");
+    /*const e_xg:any = document.getElementById("gaia-xg");
 
         if (e_xg) {
             e_xg.value = "";
@@ -158,7 +159,7 @@ class SearchAppBar extends React.Component<any,any> {
 
         if (e_zoom) {
             e_zoom.value = "";
-		}
+		}*/
     this.props.setSearch(s);
     this.props.setSearchDone(false);
   }

@@ -142,6 +142,7 @@ class Map extends React.Component<any,any> {
 
 				if (e_xg) {
 					xg = e_xg.value;
+					console.log('xg',xg);
 				}
 
 				if (xg == "") {
@@ -151,7 +152,14 @@ class Map extends React.Component<any,any> {
     				//viewer.viewport.applyConstraints();
 				}
 
-				if (xg != "") {
+				if (xg != "" && (props.searchDone || props.search == "")) {
+
+					console.log("in top of if in Map.tsx");
+
+					if (props.search == "") {
+						console.log("clearing star overlay");
+						this.clearOverlayElements();
+					}
 
 					const e_yg:any = document.getElementById("gaia-yg");
 
@@ -167,10 +175,10 @@ class Map extends React.Component<any,any> {
 					console.log('point',p);
 					viewer.viewport.panTo(p,true);
 					viewer.viewport.zoomTo(zoom,null,true)
-			
+		
 				} else if (props.search && !props.searchDone) {
 					console.log('search',props.search);
-					const searchName = this.props.search;
+					const searchName = props.search;
 					const searchNameLC = searchName.toLowerCase();
 					//props.setSearch('');
 					
@@ -403,6 +411,7 @@ class Map extends React.Component<any,any> {
 						});
 					}
 				} else if (props.xg !== false) {
+					
 					const p = new OpenSeadragon.Point(props.xg,props.yg);
 					console.log('point',p);
 					viewer.viewport.panTo(p,true);
@@ -415,7 +424,8 @@ class Map extends React.Component<any,any> {
 				} else {
 					const p = new OpenSeadragon.Point(0.50205*scaleWidth,0.48190*scaleWidth);
 					console.log('point',p);
-					viewer.viewport.panTo(p,true);		
+					viewer.viewport.panTo(p,true);
+					console.log('skipping panTo');	
 				}
 				
 				// const tracker = new OpenSeadragon.MouseTracker({
@@ -609,7 +619,8 @@ class Map extends React.Component<any,any> {
 		const e_xg:any = document.getElementById("gaia-xg");
 
         if (e_xg) {
-            e_xg.value = xg;
+			e_xg.value = xg;
+			//console.log('in updateBookmark, xg: ',e_xg.value);
 		}
 
 		const e_yg:any = document.getElementById("gaia-yg");
@@ -805,7 +816,7 @@ class Map extends React.Component<any,any> {
 		const d3Text:any = d3.select(overlay.node()).append("text")
 			.attr('id','overlay-text')
 			.attr("x", x)             
-			.attr("y", y+4)
+			.attr("y", y+3)
 			.attr("text-anchor", "middle")
 			.style("font-weight", "bold")			
 			.style("font-size", "0.05em")
@@ -823,9 +834,9 @@ class Map extends React.Component<any,any> {
 		d3.select(overlay.node()).insert("rect","text")
 			.attr('id','overlay-rect')
 			.attr("x", bbox.x-padding)
-			.attr("y", bbox.y-padding*0.3)
-			.attr("width", bbox.width+(padding*2))
-			.attr("height", bbox.height+(padding*1))
+			.attr("y", bbox.y-padding*0.1)
+			.attr("width", bbox.width+(padding*1.9))
+			.attr("height", bbox.height+(padding*0.65))
 			.style("fill", "#FFFFFF")
 			.style("fill-opacity",0.85)
 			.style("stroke", "#006000")
@@ -852,7 +863,7 @@ class Map extends React.Component<any,any> {
 		let extraTextBit:any = d3.select(overlay.node()).append("text")
 			.attr('id','overlay-extratext')
 			.attr("x", x)             
-			.attr("y", y+4.75)
+			.attr("y", y+3.75)
 			.attr("text-anchor", "middle")
 			.style("font-weight", "normal")			
 			.style("font-size", "0.03em")
