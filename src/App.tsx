@@ -137,6 +137,13 @@ class App extends React.Component<any,any> {
     if ('search' in urlParams) {
       this.setState({search:urlParams.search.trim()});
       this.setState({searchDone:false});
+      if (('xg' in urlParams) && ('yg' in urlParams)) {
+        this.setState({xg:parseFloat(urlParams.xg)});
+        this.setState({yg:parseFloat(urlParams.yg)});
+      }
+			if ('zoom' in urlParams) {
+				this.setState({zoom:parseFloat(urlParams.zoom)});				
+			}
     } else if (('xg' in urlParams) && ('yg' in urlParams)) {
       this.setState({searchDone:true});
 			// this.setState({x:parseFloat(urlParams.xg)});
