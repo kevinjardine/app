@@ -321,7 +321,7 @@ class Map extends React.Component<any,any> {
 																
 																//errorElement.append('Slew using B-J distance successful.');
 															} else {
-																errorElement.append('Cannot display objects with a distance greater than 5000 pc.');
+																errorElement.append('Distance must be less than 5000 pc.');
 															}
 														} else {
 															errorElement.append('Cannot find Bailer-Jones distance.');
@@ -396,7 +396,7 @@ class Map extends React.Component<any,any> {
 																react_self.slew(glon,glat,distance,distancePlus,distanceMinus,searchName,'');
 																//errorElement.append('Slew using B-J distance successful.');
 															} else {
-																errorElement.append('Cannot display stars with a distance greater than 5000 pc.');
+																errorElement.append('Distance must be less than 5000 pc.');
 															}
 														} else {
 															errorElement.append('Cannot find Bailer-Jones distance.');

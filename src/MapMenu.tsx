@@ -239,6 +239,12 @@ the data set first described in:</p>
   in the direction of Perseus." <i>Astronomy &amp; Astrophysics</i> 624 (2019): A126.</p>
 <h3>Dust</h3>
 <p>Lallement, R., et al. "Gaia-2MASS 3D maps of Galactic interstellar dust within 3 kpc." <i>Astronomy &amp; Astrophysics</i> 625 (2019): A135.</p>
+<h3>Masers</h3>
+<p>Rastorguev, A. S., et al. "Galactic masers: Kinematics, spiral structure and the disk dynamic state." <i>Astrophysical Bulletin</i> 72.2 (2017): 122-140.</p>
+<p>Reid, M. J., et al. "Trigonometric parallaxes of high mass star forming regions: the structure and kinematics of the Milky Way." <i>The Astrophysical Journal</i> 783.2 (2014): 130.</p>
+<p>Wu, Y. W., et al. "Trigonometric Parallaxes of Star-forming Regions beyond the Tangent Point of the Sagittarius Spiral Arm." <i>The Astrophysical Journal</i> 874.1 (2019): 94.</p>
+<h3>Exoplanet stars</h3>
+<p>Derived from PHL's <a style={{color:'white'}} href="http://phl.upr.edu/projects/habitable-exoplanets-catalog/data/database">Exoplanet Catalog</a> of the Planetary Habitability Laboratory @ UPR Arecibo.</p>
           </DialogContentText>
         </DialogContent>
     </Dialog>
