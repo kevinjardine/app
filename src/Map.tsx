@@ -31,7 +31,7 @@ class Map extends React.Component<any,any> {
         this.state = {
             showStarInfo: false,
             starData: {},
-            viewer: false
+			viewer: false
 		};
     }
 
@@ -303,28 +303,40 @@ class Map extends React.Component<any,any> {
 														let json_data:any = Array(json.data);
 														if (json_data.length > 0) {
 															var d:any = json_data[0].data[0];
-															console.log('bj',json);
-															console.log('d.data',d);
-															distance = Math.round(parseFloat(d[1]));
-															distancePlus = Math.round(parseFloat(d[2]));
-															distanceMinus = Math.round(parseFloat(d[3]));
-															if (distance < 4500) {
-																if (relMag != '~') {
-																	mag = parseFloat(relMag)- 5*(Math.log10(distance) - 1);
+															if (d) {
+																console.log('bj',json);
+																console.log('d.data',d);
+																distance = Math.round(parseFloat(d[1]));
+																distancePlus = Math.round(parseFloat(d[2]));
+																distanceMinus = Math.round(parseFloat(d[3]));
+																if (distance < 4500) {
+																	if (relMag != '~') {
+																		mag = parseFloat(relMag)- 5*(Math.log10(distance) - 1);
+																	} else {
+																		mag = '~';
+																	}
+																	viewer.addOnceHandler('animation-finish', function() {
+																		react_self.makeStarDocBox(glon,glat,parallax,distance,distancePlus,distanceMinus,mainName,otherNamesJoin,source_id,spectrum,mag);
+																	});
+																	react_self.slew(glon,glat,distance,distancePlus,distanceMinus,searchName,spectrum);
+																	
+																	//errorElement.append('Slew using B-J distance successful.');
 																} else {
-																	mag = '~';
+																	this.props.setError('Distance must be less than 5000 pc.');
 																}
-																viewer.addOnceHandler('animation-finish', function() {
-																	react_self.makeStarDocBox(glon,glat,parallax,distance,distancePlus,distanceMinus,mainName,otherNamesJoin,source_id,spectrum,mag);
-																});
-																react_self.slew(glon,glat,distance,distancePlus,distanceMinus,searchName,spectrum);
-																
-																//errorElement.append('Slew using B-J distance successful.');
 															} else {
-																errorElement.append('Distance must be less than 5000 pc.');
+																// use result from SIMBAD
+																distance = Math.round(1000/parallax);
+																distanceMinus = Math.round(1000/(parallax-error));
+																distancePlus = Math.round(1000/(parallax+error));
+																react_self.slew(glon,glat,distance,distancePlus,distanceMinus,searchName,spectrum);
 															}
 														} else {
-															errorElement.append('Cannot find Bailer-Jones distance.');
+															// use result from SIMBAD
+															distance = Math.round(1000/parallax);
+															distanceMinus = Math.round(1000/(parallax-error));
+															distancePlus = Math.round(1000/(parallax+error));
+															react_self.slew(glon,glat,distance,distancePlus,distanceMinus,searchName,spectrum);
 														}
 													});
 												} else {
@@ -338,14 +350,14 @@ class Map extends React.Component<any,any> {
 												error = '~';
 												errRatio = '~';
 												distance = '~';
-												errorElement.append('Cannot determine parallax error.');
+												this.props.setError('Cannot determine parallax error.');
 											}
 										} else {
 											parallax = '~';
 											error = '~';
 											errRatio = '~';
 											distance = '~';
-											errorElement.append('Cannot determine parallax.');
+											this.props.setError('Cannot determine parallax.');
 										}
 										console.log(name[0],spectrum,glon,glat,parallax,error,errRatio,plxSource,distance,distancePlus,distanceMinus);
 									} else {
@@ -364,7 +376,7 @@ class Map extends React.Component<any,any> {
 												let d = response_data.split('\n').slice(-4)[0];
 												if (d[0] == '#') {
 													console.log('error');
-													errorElement.append('Cannot find a star with this Gaia DR2 ID.');
+													this.props.setError('Cannot find a star with this Gaia DR2 ID.');
 												} else {
 													console.log(d);
 													let ds = d.split(' ');
@@ -396,10 +408,10 @@ class Map extends React.Component<any,any> {
 																react_self.slew(glon,glat,distance,distancePlus,distanceMinus,searchName,'');
 																//errorElement.append('Slew using B-J distance successful.');
 															} else {
-																errorElement.append('Distance must be less than 5000 pc.');
+																this.props.setError('Distance must be less than 5000 pc.');
 															}
 														} else {
-															errorElement.append('Cannot find Bailer-Jones distance.');
+															this.props.setError('Cannot find Bailer-Jones distance.');
 														}
 													});
 												
@@ -407,7 +419,7 @@ class Map extends React.Component<any,any> {
 												}
 											});
 										} else {
-											errorElement.innerHTML = '<span>Cannot find an object with this ID.</span>';
+											this.props.setError('Cannot find an object with this ID.');
 										}
 									
 									}
@@ -468,7 +480,7 @@ class Map extends React.Component<any,any> {
 		}
         return (
 			<div id="map-wrapper">
-            	<div id="openseadragon1" style={{verticalAlign:'top', width: this.props.windowWidth+'px',height: (document.fullscreenElement?this.props.windowHeight:this.props.windowHeight-95)+'px'}} />
+            	<div id="openseadragon1" style={{verticalAlign:'top', width: this.props.windowWidth+'px',height: (document.fullscreenElement?this.props.windowHeight:this.props.windowHeight-70)+'px'}} />
 				<div style={{display:'none'}}>
 					<div id="gaiacontrols">
 						<div id="gaiacontrols-text">Longitude: <span id="gaialongitude">0</span>&deg;

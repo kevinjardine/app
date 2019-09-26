@@ -49,6 +49,11 @@ class MapMenu extends React.Component<any,any> {
     this.setState({ display: Displayed.NoDisplay });
   };
 
+  handleCloseError = () => {
+    this.setState({ display: Displayed.NoDisplay });
+    this.props.setError('');
+  };
+
   public handleClickOpen = () => {
     this.setState({ open: true });
   };
@@ -76,7 +81,8 @@ class MapMenu extends React.Component<any,any> {
 
   render() {
     const { anchorEl } = this.state;
-    const { classes } = this.props;
+    const { classes, errorMsg } = this.props;
+    console.log("errorMsg",errorMsg);
 
     return (
       <div>
@@ -100,6 +106,24 @@ class MapMenu extends React.Component<any,any> {
             <MenuItem onClick={() => this.handleDisplay(Displayed.Sources)}>Sources</MenuItem>
             <MenuItem onClick={() => this.handleDisplay(Displayed.Acknowledgements)}>Acknowledgements</MenuItem>
         </Menu>
+        <Dialog
+          open={errorMsg != ""}
+          onClose={this.handleCloseError}
+          aria-labelledby="form-dialog-title"
+        >
+        <DialogTitle disableTypography={true} style={{alignItems:"center",display:"flex",height:"20px",
+        justifyContent: "space-between"}}>
+            <h2 style={{color:"white"}}>Error</h2>
+            <IconButton onClick={this.handleCloseError} style={{position:"relative", left:"10px"}}>
+                <CloseIcon />
+            </IconButton>
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            <p>{errorMsg}</p>
+          </DialogContentText>
+        </DialogContent>
+      </Dialog>
         <Dialog
           open={this.state.display == Displayed.Settings}
           onClose={this.handleClose2}

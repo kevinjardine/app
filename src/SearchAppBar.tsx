@@ -97,7 +97,8 @@ class SearchInput extends React.Component<any,any> {
       let searchBit = this.state.search;
       if (/^\d+$/.test(searchBit)) {
 				searchBit = 'Gaia DR2 '+searchBit;
-			}
+      }
+      console.log('updating search in keyPress')
       this.props.updateSearch(searchBit,'box');
       e.target.value = "";
     }
@@ -105,7 +106,8 @@ class SearchInput extends React.Component<any,any> {
 
   public handleFocus = () => {
     this.setState({ search: ''});
-    //this.props.setSearchDone(true);
+    this.props.setSearchDone(true);
+    console.log('updating search in handleFocus')
   }
 
   public render() {

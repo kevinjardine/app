@@ -20,12 +20,12 @@ class AppContent extends React.Component<any,any> {
           setSearch={this.props.setSearch}
           setSearchDone={this.props.setSearchDone}
           setOptions={this.props.setOptions}
+          setError={this.props.setError}
+          errorMsg={this.props.errorMsg}
           windowHeight={this.props.windowHeight}
           windowWidth={this.props.windowWidth}
         />
-        <div id="map-buffer" style={{paddingTop:'50px',clear:'both',height:'5px'}} />
-        <p id="error" />
-        <a id="gaia-search-bookmark-link" style={{display:'none'}} href="">None</a>
+        <div id="map-buffer" style={{paddingTop:'57px',clear:'both',height:'5px'}} />
         <Map {... this.props} />        
       </div>
     );

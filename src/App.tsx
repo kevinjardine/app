@@ -25,7 +25,8 @@ class App extends React.Component<any,any> {
       y: false,
       w: false,
       h: false,
-      bookmark: 'nothinghere' 
+      bookmark: 'nothinghere',
+      errorMsg: ''
     };
     this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
   }
@@ -41,6 +42,15 @@ class App extends React.Component<any,any> {
     this.setState({searchDone});
   }
 
+  public setError = (errorMsg: string) => {
+    this.setState({errorMsg});
+    this.setSearch('','');
+    const searchElement = document.getElementById("searchField");
+		if (searchElement) {
+			searchElement.blur();
+		}
+  }
+
   public setBookmark = (bookmark: string) => {
     this.setState({bookmark});
   }
@@ -52,6 +62,7 @@ class App extends React.Component<any,any> {
   public setOptions = (guideBit:string,zoom_bookmarkBit:string,overlay:string) => {
     console.log('call to setOptions',guideBit,zoom_bookmarkBit,overlay);
     this.setState({guideBit,zoom_bookmarkBit,overlay});
+    this.setSearchDone(true);
   }
 
   public componentWillMount() {
@@ -82,7 +93,12 @@ class App extends React.Component<any,any> {
     return (
       <MuiThemeProvider theme={myTheme}>
         <div className="App">      
-          <AppContent {... this.state} setSearch = {this.setSearch} setSearchDone={this.setSearchDone} setOptions = {this.setOptions} setBookmark = {this.setBookmark} />
+          <AppContent {... this.state} 
+            setSearch = {this.setSearch} 
+            setSearchDone={this.setSearchDone} 
+            setOptions = {this.setOptions} 
+            setBookmark = {this.setBookmark}
+            setError = {this.setError} />
         </div>
       </MuiThemeProvider>
     );
