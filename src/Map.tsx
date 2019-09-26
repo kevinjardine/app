@@ -137,22 +137,22 @@ class Map extends React.Component<any,any> {
 				//viewer.viewport.panTo(new OpenSeadragon.Point(0.50045*scaleWidth,0.72*scaleWidth),true);
 				// viewer.viewport.panTo(new OpenSeadragon.Point(0.50045*scaleWidth,0.4*scaleWidth),true);
 
-				const e_xg:any = document.getElementById("gaia-xg");
-				let xg = "";
+				const e_x:any = document.getElementById("gaia-x");
+				let x = "";
 
-				if (e_xg) {
-					xg = e_xg.value;
-					console.log('xg',xg);
+				if (e_x) {
+					x = e_x.value;
+					console.log('x',x);
 				}
 
-				if (xg == "") {
+				if (x == "") {
 					viewer.viewport.panTo(new OpenSeadragon.Point(0.50045*scaleWidth,0.4*scaleWidth),true);
 					//viewer.viewport.zoomTo(0.000001,null,true)
 					//viewer.viewport.zoomTo(0.0001, null, true);
     				//viewer.viewport.applyConstraints();
 				}
 
-				if (xg != "" && (props.searchDone || props.search == "")) {
+				if (x != "" && (props.searchDone || props.search == "")) {
 
 					console.log("in top of if in Map.tsx");
 
@@ -161,20 +161,25 @@ class Map extends React.Component<any,any> {
 						this.clearOverlayElements();
 					}
 
-					const e_yg:any = document.getElementById("gaia-yg");
+					const xn = parseFloat(x);
 
-					let yg = e_yg.value;
+					const e_y:any = document.getElementById("gaia-y");
 
-					const e_zoom:any = document.getElementById("gaia-zoom");
+					const yn = parseFloat(e_y.value);
 
-					let zoom = e_zoom.value;
+					const e_w:any = document.getElementById("gaia-w");
 
-					console.log('found non-empty values', xg,yg,zoom);
+					const wn = parseFloat(e_w.value);
 
-					const p = new OpenSeadragon.Point(parseFloat(xg),parseFloat(yg));
-					console.log('point',p);
-					viewer.viewport.panTo(p,true);
-					viewer.viewport.zoomTo(zoom,null,true)
+					const e_h:any = document.getElementById("gaia-h");
+
+					const hn = parseFloat(e_h.value);
+
+					console.log('found non-empty values', xn,yn,wn,hn);
+
+					const bounds = new OpenSeadragon.Rect(xn,yn,wn,hn);
+
+					viewer.viewport.fitBounds(bounds,true);
 		
 				} else if (props.search && !props.searchDone) {
 					console.log('search',props.search);
@@ -410,22 +415,15 @@ class Map extends React.Component<any,any> {
 							}
 						});
 					}
-				} else if (props.xg !== false) {
+				} else if (props.x !== false) {
 					
-					const p = new OpenSeadragon.Point(props.xg,props.yg);
-					console.log('point',p);
-					viewer.viewport.panTo(p,true);
-					const vp = viewer.viewport.getCenter(true);
-					console.log('center',vp.x,vp.y);
-					if (this.props.zoom !== false) {
-						// console.log('open',x,y,zoom);
-						viewer.viewport.zoomTo(props.zoom,null,true)
-					}
+					const bounds = new OpenSeadragon.Rect(props.x,props.y,props.w,props.h);
+
+					viewer.viewport.fitBounds(bounds,true);
 				} else {
 					const p = new OpenSeadragon.Point(0.50205*scaleWidth,0.48190*scaleWidth);
 					console.log('point',p);
-					viewer.viewport.panTo(p,true);
-					console.log('skipping panTo');	
+					viewer.viewport.panTo(p,true);	
 				}
 				
 				// const tracker = new OpenSeadragon.MouseTracker({
@@ -444,7 +442,7 @@ class Map extends React.Component<any,any> {
 					const p = event.eventSource.viewport.getCenter(false);
 					const px = p.x;
 					const py = p.y;
-					this.updateBookmark();
+					this.updateBookmarkBounds();
 					this.updateCoords(px,py);
 					// updateZoom(p);
 					// updateCoords(p,false);
@@ -643,6 +641,55 @@ class Map extends React.Component<any,any> {
 		//this.props.setBookmark(bookmarkUrl);
 	}
 
+	private updateBookmarkBounds = () => {
+		const viewer = this.state.viewer;
+		const bounds = viewer.viewport.getBounds(true);
+		const x = bounds.x;
+		const y = bounds.y;
+		const h = bounds.height;
+		const w = bounds.width;
+		
+		const zoom = viewer.viewport.getZoom();
+		// console.log(xg,yg,zoom);
+		
+		let bookmarkUrl = posterUrl+'?x='+x.toFixed(12)+'&y='+y.toFixed(12)+'&w='+w.toFixed(12)+'&h='+h.toFixed(12)+'&tileset='+this.props.guideBit+this.props.zoom_bookmarkBit+this.props.overlay;
+		if (this.props.search) {
+			bookmarkUrl += '&search='+this.props.search;
+		}
+		
+		const e_x:any = document.getElementById("gaia-x");
+
+        if (e_x) {
+			e_x.value = x;
+		}
+
+		const e_y:any = document.getElementById("gaia-y");
+
+        if (e_y) {
+            e_y.value = y;
+		}
+
+		const e_w:any = document.getElementById("gaia-w");
+
+		if (e_w) {
+			e_w.value = w;
+			//console.log('in updateBookmark, xg: ',e_xg.value);
+		}
+
+		const e_h:any = document.getElementById("gaia-h");
+
+        if (e_h) {
+            e_h.value = h;
+		}
+
+        const e:any = document.getElementById("gaia-search-bookmark-link");
+
+        if (e) {
+            e.href = bookmarkUrl;
+		}
+		//this.props.setBookmark(bookmarkUrl);
+	}
+
 	private handleClose = () => {
 	}
 
@@ -738,6 +785,10 @@ class Map extends React.Component<any,any> {
 	private slew = (glon:number,glat:number,distance:number,distancePlus:number,distanceMinus:number,label:string,spectrum:string) => {
 		// const x = ((10.043)*(vp.x - (scaleWidth*0.504525)));
 		// const y = ((10.047)*(vp.y - (scaleWidth*0.54628)));
+		let bounds;
+		
+		const props = this.props;
+
 		const searchElement = document.getElementById("searchField");
 		if (searchElement) {
 			searchElement.blur();
@@ -749,6 +800,7 @@ class Map extends React.Component<any,any> {
 		const yScale = 11.079;
 
 		const viewer = this.state.viewer;
+		const viewport = viewer.viewport;
 		const r = distance/1000;
 		const rMinus = distanceMinus/1000;
 		const rPlus = distancePlus/1000;
@@ -882,18 +934,26 @@ class Map extends React.Component<any,any> {
 
 		console.log("in slew",this.props,this.state);
 
-		if (this.props.zoom_bookmarkBit == 'N') {
+		if (props.zoom_bookmarkBit == 'N') {
 
-			const bounds = new OpenSeadragon.Rect(x-0.0001,y-0.0001,0.0002,0.0002,0);
-			const viewport = viewer.viewport;
+			//const bounds = new OpenSeadragon.Rect(x-0.0001,y-0.0001,0.0002,0.0002,0);
+			if (props.searchSource == 'url' && props.x !== false) {					
+				bounds = new OpenSeadragon.Rect(props.x,props.y,props.w,props.h);
+			} else {
+				bounds = new OpenSeadragon.Rect(x-0.0001,y-0.0001,0.0002,0.0002,0);
+			}			
 
 			viewport.fitBoundsWithConstraints(bounds,true);
 		} else {
 		
 			// viewer.viewport.zoomTo(7.6,new OpenSeadragon.Point(x,y), false);
 			setTimeout(() => {
-				const bounds = new OpenSeadragon.Rect(x-0.0001,y-0.0001,0.0002,0.0002,0);
-				const viewport = viewer.viewport;
+				let bounds: any;
+				if (props.searchSource == 'url' && props.x !== false) {					
+					bounds = new OpenSeadragon.Rect(props.x,props.y,props.w,props.h);
+				} else {
+					bounds = new OpenSeadragon.Rect(x-0.0001,y-0.0001,0.0002,0.0002,0);
+				}
 				// console.log(viewer.viewport.getBounds(true));
 				// console.log(bounds);
 				// viewer.viewport.goHome(true);
@@ -910,6 +970,11 @@ class Map extends React.Component<any,any> {
 	private zoomToObject = (xg:number,yg:number,radius:number) => {
 		// const x = ((10.043)*(vp.x - (scaleWidth*0.504525)));
 		// const y = ((10.047)*(vp.y - (scaleWidth*0.54628)));
+		let bounds;		
+		const props = this.props;
+		const viewer = this.state.viewer;
+		const viewport = viewer.viewport;
+
 		const searchElement = document.getElementById("searchField");
 		if (searchElement) {
 			searchElement.blur();
@@ -930,7 +995,6 @@ class Map extends React.Component<any,any> {
 		// const yScale = 11.717;
 		const xScale = 11.079;
 		const yScale = 11.079;
-		const viewer = this.state.viewer;
 
 		//const x = ((10.043)*(r*cosb*cosl - (scaleWidth*0.504525)));
 		const x = (xg/xScale+xFactor);
@@ -968,27 +1032,42 @@ class Map extends React.Component<any,any> {
 	
 		d3.select(overlay.node()).append("circle")
 			.attr('id','overlay-circle')
-			.attr("cx", x)
-			.attr("cy", y)
-			.attr("r", radius/12.5)
+			.attr("cx", x+0.085)
+			.attr("cy", y-0.05)
+			.attr("r", radius/11.8)
 			.style('fill','none')
 			.style("stroke", "#00FF00")
 			.attr("stroke-opacity", 0.6)
 			.style("stroke-width",0.22);
 		
 		// viewer.viewport.zoomTo(7.6,new OpenSeadragon.Point(x,y), false);
-		setTimeout(() => {
-            const bounds = new OpenSeadragon.Rect(x-0.1*radius,y-0.1*radius,0.2*radius,0.2*radius,0);
-            const viewport = viewer.viewport;
-			// console.log(viewer.viewport.getBounds(true));
-			// console.log(bounds);
-			// viewer.viewport.goHome(true);
-			this.withSlowOSDAnimation(viewport, () => {
-				viewport.fitBoundsWithConstraints(bounds,false);
-				// viewer.viewport.panTo(new OpenSeadragon.Point(x,y), false).zoomTo(12/scaleWidth,false);
-			});
+		if (props.zoom_bookmarkBit == 'N') {
+
+			//const bounds = new OpenSeadragon.Rect(x-0.0001,y-0.0001,0.0002,0.0002,0);
+			if (props.searchSource == 'url' && props.x !== false) {					
+				bounds = new OpenSeadragon.Rect(props.x,props.y,props.w,props.h);
+			} else {
+				bounds = new OpenSeadragon.Rect(x-0.1*radius,y-0.1*radius,0.2*radius,0.2*radius);
+			}			
+
+			viewport.fitBoundsWithConstraints(bounds,true);
+		} else {
+			setTimeout(() => {
+				let bounds: any;
+				if (props.searchSource == 'url' && props.x !== false) {					
+					bounds = new OpenSeadragon.Rect(props.x,props.y,props.w,props.h);
+				} else {
+					bounds = new OpenSeadragon.Rect(x-0.1*radius,y-0.1*radius,0.2*radius,0.2*radius);
+				}
+				// console.log(viewer.viewport.getBounds(true));
+				// console.log(bounds);
+				// viewer.viewport.goHome(true);
+				this.withSlowOSDAnimation(viewport, () => {
+					viewport.fitBoundsWithConstraints(bounds,false);
+					// viewer.viewport.panTo(new OpenSeadragon.Point(x,y), false).zoomTo(12/scaleWidth,false);
+				});
 			}, 1500);
-	
+		}	
 	}
 
 	private newPushOverlay = () => {

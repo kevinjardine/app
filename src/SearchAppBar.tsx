@@ -98,7 +98,7 @@ class SearchInput extends React.Component<any,any> {
       if (/^\d+$/.test(searchBit)) {
 				searchBit = 'Gaia DR2 '+searchBit;
 			}
-      this.props.updateSearch(searchBit);
+      this.props.updateSearch(searchBit,'box');
       e.target.value = "";
     }
   }
@@ -140,7 +140,7 @@ class SearchAppBar extends React.Component<any,any> {
     //this.props.setSearchDone(true);
   }
 
-  public updateSearch = (s:any) => {
+  public updateSearch = (s:string, source:string) => {
     console.log('in updateSearch',s);
     //this.setState({ search: s});
     /*const e_xg:any = document.getElementById("gaia-xg");
@@ -160,7 +160,7 @@ class SearchAppBar extends React.Component<any,any> {
         if (e_zoom) {
             e_zoom.value = "";
 		}*/
-    this.props.setSearch(s);
+    this.props.setSearch(s,source);
     this.props.setSearchDone(false);
   }
 

@@ -16,21 +16,24 @@ class App extends React.Component<any,any> {
       zoom_bookmarkBit: 'N',
       guideBit: 'G',
       overlay: 'C',
-      search: false,
+      search: '',
+      searchSource: '',
       searchDone: true,
       windowHeight: 0,
       windowWidth: 0,
-      xg: false,
-      yg: false,
-      zoom: false,
+      x: false,
+      y: false,
+      w: false,
+      h: false,
       bookmark: 'nothinghere' 
     };
     this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
   }
 
-  public setSearch = (search: string) => {
+  public setSearch = (search: string, source: string) => {
     console.log('setSearch',search);
     this.setState({search});
+    this.setState({searchSource:source});
   }
 
   public setSearchDone = (searchDone: boolean) => {
@@ -137,22 +140,23 @@ class App extends React.Component<any,any> {
     if ('search' in urlParams) {
       this.setState({search:urlParams.search.trim()});
       this.setState({searchDone:false});
-      if (('xg' in urlParams) && ('yg' in urlParams)) {
-        this.setState({xg:parseFloat(urlParams.xg)});
-        this.setState({yg:parseFloat(urlParams.yg)});
+      this.setState({searchSource:'url'});
+      if (('x' in urlParams) && ('y' in urlParams)) {
+        this.setState({x:parseFloat(urlParams.x)});
+        this.setState({y:parseFloat(urlParams.y)});
+        this.setState({w:parseFloat(urlParams.w)});
+        this.setState({h:parseFloat(urlParams.h)});
       }
-			if ('zoom' in urlParams) {
-				this.setState({zoom:parseFloat(urlParams.zoom)});				
-			}
-    } else if (('xg' in urlParams) && ('yg' in urlParams)) {
+    } else if (('x' in urlParams) && ('y' in urlParams)) {
       this.setState({searchDone:true});
+      this.setState({search:''});
+      this.setState({searchSource:''});
 			// this.setState({x:parseFloat(urlParams.xg)});
       // this.setState({y:parseFloat(urlParams.yg)});
-      this.setState({xg:parseFloat(urlParams.xg)});
-			this.setState({yg:parseFloat(urlParams.yg)});
-			if ('zoom' in urlParams) {
-				this.setState({zoom:parseFloat(urlParams.zoom)});				
-			}
+      this.setState({x:parseFloat(urlParams.x)});
+      this.setState({y:parseFloat(urlParams.y)});
+      this.setState({w:parseFloat(urlParams.w)});
+      this.setState({h:parseFloat(urlParams.h)});
 		}
   }
 }
