@@ -143,3 +143,19 @@ body {
 	background: url("./legend.png") no-repeat center center;
 	background-size: contain;
 }
+
+
+#map_icons {
+	width: 139px;
+	height: 27px;
+	background: url("./map_icons.png") no-repeat center center;
+	background-size: contain;
+}
+
+#map_region {
+	width: 250px;
+	height: 250px;
+	background: url("./map_region.png") no-repeat center center;
+	background-size: contain;
+	margin: 0 auto;
+}

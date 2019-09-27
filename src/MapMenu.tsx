@@ -199,8 +199,35 @@ class MapMenu extends React.Component<any,any> {
         </DialogTitle>
         <DialogContent>
           <DialogContentText>
-            Help would go here.
-          </DialogContentText>
+This map shows hot star density out to 5000 parsecs (about 16 thousand light years) from the Sun. This is the 
+  region bounded by the yellow disk in the image below.</DialogContentText>
+<div id="map_region"></div>
+<DialogContentText>
+You can zoom and pan around the map to see a large range of details from spiral structures to individual objects like nebulae, star clusters, 
+  masers and stars with known exoplanets.</DialogContentText>
+
+  <DialogContentText><h3>Settings</h3></DialogContentText>
+
+<DialogContentText>Accesible from the left menu in the app bar, this allows you to toggle the guide lines, determine whether a zoom animation is used for 
+  searches and loading bookmark URLs, and set various map overlays.</DialogContentText>
+
+  <DialogContentText><h3>Search</h3></DialogContentText>
+
+<DialogContentText>Search will show a distance estimate, error bars and spectral type for any star with a Gaia DR2 source id or an identifier that 
+  has a parallax in SIMBAD. You can also enter a name for any nebula or star cluster on the map. To remove a search result from the map, 
+  place the cursor in the search box and hit enter without entering any text.</DialogContentText>
+
+  <DialogContentText><h3>Bookmark</h3></DialogContentText>
+
+<DialogContentText>If you click on the bookmark icon at the far right of the app bar, a URL that recreates the current view will be copied to your clipboard. 
+  Loading the URL will start with a zoom to the view if the zoom animation option is turned on in the settings.</DialogContentText>
+
+  <DialogContentText><h3>Navigation</h3></DialogContentText>
+
+<div id="map_icons"></div>
+<DialogContentText>
+If your mouse is hovering over the map (desktop) or you have recently touched the map (mobile), a green crosshair will appear on the map as well as 4 navigation icons at the upper left. The four icons handle zoom in, zoom out, home location and toggling full screen mode. You can also zoom in and out by clicking / dragging the map or 
+  using pinch gestures on touch screens. The readout at the bottom left shows the current position of the green crosshair.</DialogContentText>
         </DialogContent>
     </Dialog>
     <Dialog
