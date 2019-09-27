@@ -17,8 +17,8 @@ import { image } from 'd3';
 // const dataUrlPrefix = 'http://localhost:3000';
 // const dataUrlPrefix = 'http://gruze.org/galaxymap/poster2/poster2a';
 let dataUrlPrefix = 'http://gruze.org/galaxymap/app_beta/main_no_guides_png';
-const posterUrl = 'http://localhost:3000';
-// const posterUrl = 'http://galaxymap.org/app_beta3';
+//const posterUrl = 'http://localhost:3000';
+const posterUrl = 'http://galaxymap.org/app_beta4';
 const scaleWidth = 1024;
 
 // declare var d3: any;

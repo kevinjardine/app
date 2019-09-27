@@ -2,7 +2,7 @@
   "name": "map2",
   "version": "0.1.0",
   "private": true,
-  "homepage": "http://galaxymap.org/app_beta3/",
+  "homepage": "http://galaxymap.org/app_beta4/",
   "dependencies": {
     "@material-ui/core": "^3.8.1",
     "@material-ui/icons": "^3.0.1",
